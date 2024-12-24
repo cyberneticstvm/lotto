@@ -50,9 +50,6 @@ class APIController extends Controller
     function getNextPlay(Request $request)
     {
         $play = Play::where('locked_from', '>=', Carbon::now()->format('H:i:s'))->first();
-        if ($play . isEmpty()) {
-            $play = Play::find(1);
-        }
         return response()->json([
             'status' => true,
             'play' => $play,
