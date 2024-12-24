@@ -47,7 +47,7 @@ class APIController extends Controller
 
     function getNextPlay(Request $request)
     {
-        $play = Play::where('locked_from', '>=', Carbon::now());
+        $play = Play::where('locked_from', '>=', Carbon::now()->format('H:i:s'));
         return response()->json([
             'status' => true,
             'play' => $play,
