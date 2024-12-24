@@ -50,7 +50,7 @@ class APIController extends Controller
         $play = Play::where('locked_from', '>=', Carbon::now()->format('H:i:s'));
         return response()->json([
             'status' => true,
-            'play' => $play,
+            'play' => Carbon::now()->format('H:i:s'),
             'message' => 'success',
         ], 200);
     }
