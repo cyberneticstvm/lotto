@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Play;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,6 +43,16 @@ class APIController extends Controller
                 'message' => 'Invalid Authentication Token',
             ], 500);
         }
+    }
+
+    function getNextPlay(Request $request)
+    {
+        $play = Play::where('locked_from', '>=', Carbon::now());
+        return response()->json([
+            'status' => true,
+            'play' => $play,
+            'message' => 'success',
+        ], 200);
     }
 
     function getHeader($request)
