@@ -12,4 +12,5 @@ Route::prefix('user')->controller(APIController::class)->group(function () {
     Route::post('/auth', 'getAuthUser')->name('get.auth.user');
     Route::post('/nextplay', 'getNextPlay')->name('get.next.play');
     Route::post('/current/users', 'getCurrentUsers')->name('get.current.users');
+    Route::post('/plays', 'getPlays')->name('get.plays');
 });
