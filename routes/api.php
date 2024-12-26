@@ -15,4 +15,5 @@ Route::prefix('user')->controller(APIController::class)->group(function () {
     Route::post('/plays', 'getPlays')->name('get.plays');
     Route::post('/edit/plays', 'getPlaysForEdit')->name('get.plays.for.edit');
     Route::post('/play', 'getPlay')->name('get.play');
+    Route::post('/play/update', 'updatePlay')->name('play.update');
 });

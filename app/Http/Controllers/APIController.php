@@ -98,6 +98,19 @@ class APIController extends Controller
         ], 200);
     }
 
+    function updatePlay(Request $request)
+    {
+        Play::find($request->json('play_id'))->update([
+            'name' => $request->json('name'),
+            'locked_from' => $request->json('locked_from'),
+            'locked_to' => $request->json('locked_to'),
+        ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'success',
+        ], 200);
+    }
+
     function getHeader($request)
     {
         $headers = collect($request->header())->transform(function ($item) {
