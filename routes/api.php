@@ -13,4 +13,5 @@ Route::prefix('user')->controller(APIController::class)->group(function () {
     Route::post('/nextplay', 'getNextPlay')->name('get.next.play');
     Route::post('/current/users', 'getCurrentUsers')->name('get.current.users');
     Route::post('/plays', 'getPlays')->name('get.plays');
+    Route::post('/edit/plays', 'getPlaysForEdit')->name('get.plays.for.edit');
 });
