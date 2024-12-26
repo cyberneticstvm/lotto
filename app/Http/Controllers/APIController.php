@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Play;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,6 +54,16 @@ class APIController extends Controller
         return response()->json([
             'status' => true,
             'play' => $play,
+            'message' => 'success',
+        ], 200);
+    }
+
+    function getCurrentUsers(Request $request)
+    {
+        $users = User::all();
+        return response()->json([
+            'status' => true,
+            'users' => $users,
             'message' => 'success',
         ], 200);
     }
