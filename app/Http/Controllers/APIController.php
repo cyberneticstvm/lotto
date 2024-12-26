@@ -90,7 +90,7 @@ class APIController extends Controller
 
     function getPlay(Request $request)
     {
-        $play = Play::find($request->play_id);
+        $play = Play::find($request->json('play_id'));
         return response()->json([
             'status' => true,
             'play' => $play,
