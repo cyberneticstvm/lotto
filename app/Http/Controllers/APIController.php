@@ -100,7 +100,7 @@ class APIController extends Controller
 
     function updatePlay(Request $request)
     {
-        Play::find($request->json('play_id'))->update([
+        Play::where('id', $request->json('play_id'))->update([
             'name' => $request->json('name'),
             'locked_from' => $request->json('locked_from'),
             'locked_to' => $request->json('locked_to'),
