@@ -60,7 +60,7 @@ class APIController extends Controller
 
     function getCurrentUsers(Request $request)
     {
-        $users = User::where('id', $request->json('userId'))->get();
+        $users = User::all();
         return response()->json([
             'status' => true,
             'users' => $users,
