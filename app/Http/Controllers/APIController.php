@@ -88,6 +88,16 @@ class APIController extends Controller
         ], 200);
     }
 
+    function getPlay(Request $request)
+    {
+        $play = Play::find($request->play_id);
+        return response()->json([
+            'status' => true,
+            'play' => $play,
+            'message' => 'success',
+        ], 200);
+    }
+
     function getHeader($request)
     {
         $headers = collect($request->header())->transform(function ($item) {
