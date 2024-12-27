@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlockedNumber;
 use App\Models\Order;
 use App\Models\Play;
 use App\Models\Ticket;
@@ -140,6 +141,24 @@ class APIController extends Controller
             'status' => true,
             'count' => $count,
             'message' => 'success',
+        ], 200);
+    }
+
+    function getBlockedNumberCount(Request $request)
+    {
+        $count = BlockedNumber::where('number', $request->json('number'))->get()->count();
+        return response()->json([
+            'status' => true,
+            'count' => $count,
+            'message' => 'success',
+        ], 200);
+    }
+
+    function saveOrder(Request $request)
+    {
+        return response()->json([
+            'status' => true,
+            'message' => 'Order Saved Successfully!',
         ], 200);
     }
 

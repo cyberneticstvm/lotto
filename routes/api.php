@@ -19,4 +19,6 @@ Route::prefix('user')->controller(APIController::class)->group(function () {
     Route::post('/update/play', 'updatePlay')->name('play.update');
     Route::post('/ticket', 'getTicket')->name('get.ticket');
     Route::post('/ordercount', 'getOrderCount')->name('get.order.count');
+    Route::post('/blockednumbercount', 'getBlockedNumberCount')->name('get.blocked.number.count');
+    Route::post('/save/order', 'saveOrder')->name('order.save');
 });
