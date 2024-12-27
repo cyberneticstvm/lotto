@@ -158,6 +158,7 @@ class APIController extends Controller
     {
         return response()->json([
             'status' => true,
+            'items' => $request->items,
             'message' => 'Order Saved Successfully!',
         ], 200);
     }
