@@ -157,13 +157,33 @@ class APIController extends Controller
     function saveOrder(Request $request)
     {
         $items = json_decode($request['items'], true);
-
+        $role = $request['role'];
+        $uid = $request['user_id'];
+        if ($role != 'leader'):
+            $uid = User::where('id', $uid)->first()->parent_id;
+        endif;
+        $billnumber = Order::max('bill_number');
         $data = [];
         foreach ($items as $key => $item):
             $data[] = [
-                'ticket_number' => $item['ticket'],
+                'bill_number' => $billnumber,
+                'ticket_id' => $item['ticketId'],
+                'ticket_name' => strtolower($item['ticket']),
+                'user_id' => $item['userId'],
+                'parent_id' => $uid,
+                'play_id' => $item['playId'],
+                'play_code' => $item['play'],
+                'ticket_number' => $item['number'],
+                'ticket_count' => $item['count'],
+                'user_rate' => $item['userPrice'],
+                'leader_rate' => $item['leaderPrice'],
+                'admin_rate' => $item['adminPrice'],
+                'play_date' => explode(' ', $item['playDate'])[0],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ];
         endforeach;
+        Order::insert($data);
         return response()->json([
             'status' => true,
             'items' => $data,
