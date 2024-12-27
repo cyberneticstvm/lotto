@@ -157,14 +157,14 @@ class APIController extends Controller
     function saveOrder(Request $request)
     {
         $items = $request['items'];
-        /*foreach ($items as $key => $item):
+        foreach (explode(', ', trim($items, '[]')) as $e):
             $data[] = [
-                $item['ticket_number'],
+                $e['ticket_number'],
             ];
-        endforeach;*/
+        endforeach;
         return response()->json([
             'status' => true,
-            'items' => $items,
+            'items' => $data,
             'message' => 'Order Saved Successfully!',
             'role' => $request['role'],
         ], 200);
