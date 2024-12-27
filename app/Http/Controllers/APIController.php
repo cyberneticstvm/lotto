@@ -156,7 +156,7 @@ class APIController extends Controller
 
     function saveOrder(Request $request)
     {
-        $items = $request['items'][0];
+        $items = $request['items'];
         /*foreach ($items as $key => $item):
             $data[] = [
                 $item['ticket_number'],
