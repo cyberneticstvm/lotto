@@ -156,10 +156,10 @@ class APIController extends Controller
 
     function saveOrder(Request $request)
     {
-        $items = json_decode(json_encode($request->items));
+        $items = json_decode(json_encode($request->items), true);
         return response()->json([
             'status' => true,
-            'items' => json_encode($items),
+            'items' => $items,
             'message' => 'Order Saved Successfully!',
         ], 200);
     }
