@@ -165,7 +165,7 @@ class APIController extends Controller
         endforeach;*/
         return response()->json([
             'status' => true,
-            'items' => $items[0],
+            'items' => $items,
             'message' => 'Order Saved Successfully!',
         ], 200);
     }
