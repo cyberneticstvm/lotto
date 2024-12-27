@@ -156,7 +156,7 @@ class APIController extends Controller
 
     function saveOrder(Request $request)
     {
-        $items = json_encode($request['items']);
+        $items = json_decode($request['items']);
         /*foreach ($items as $key => $item):
             $data[] = [
                 $item['ticket_number'],
