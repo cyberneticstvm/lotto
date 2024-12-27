@@ -157,7 +157,7 @@ class APIController extends Controller
     function saveOrder(Request $request)
     {
         $items = json_decode($request->json('items'), true);
-        dd($items);
+        dd($request);
         die;
         foreach ($items as $key => $item):
             $data[] = [
