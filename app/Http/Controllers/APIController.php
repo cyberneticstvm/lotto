@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Play;
+use App\Models\Ticket;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -118,6 +119,16 @@ class APIController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Success! Play has been updated successfully.',
+        ], 200);
+    }
+
+    function getTicket(Request $request)
+    {
+        $ticket = Ticket::where('name', $request->json('ticket_name'))->first();
+        return response()->json([
+            'status' => true,
+            'ticket' => $ticket,
+            'message' => 'success',
         ], 200);
     }
 
