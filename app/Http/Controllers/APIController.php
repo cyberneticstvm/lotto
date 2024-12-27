@@ -162,7 +162,7 @@ class APIController extends Controller
         if ($role != 'leader'):
             $uid = User::where('id', $uid)->first()->parent_id;
         endif;
-        $billnumber = Order::selectRaw("IFNULL(MAX(bill_number) + 1, 1) AS bmx")->first()->bmax;
+        $billnumber = Order::max('bill_number') + 1;
         $data = [];
         foreach ($items as $key => $item):
             $data[] = [
