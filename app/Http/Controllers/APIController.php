@@ -136,7 +136,7 @@ class APIController extends Controller
 
     function getOrderCount(Request $request)
     {
-        $count = Order::where('ticket_number', $request->json('ticket_number'))->where('play_id', $request->json('play_id'))->whereDate('play_date', Carbon::parse($request->json('play_date')))->get()->count();
+        $count = Order::where('ticket_number', $request->json('ticket_number'))->where('play_id', $request->json('play_id'))->whereDate('play_date', $request->json('play_date'))->get()->count();
         return response()->json([
             'status' => true,
             'count' => $count,
