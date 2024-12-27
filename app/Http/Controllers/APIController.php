@@ -166,7 +166,7 @@ class APIController extends Controller
         $data = [];
         foreach ($items as $key => $item):
             $data[] = [
-                'bill_number' => $billnumber,
+                'bill_number' => $billnumber ?? 1,
                 'ticket_id' => $item['ticketId'],
                 'ticket_name' => strtolower($item['ticket']),
                 'user_id' => $item['userId'],
