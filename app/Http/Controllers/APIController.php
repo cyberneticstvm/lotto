@@ -160,7 +160,7 @@ class APIController extends Controller
         $data = [];
         foreach ($items as $key => $item):
             $data[] = [
-                'ticket_number' => $item->ticket,
+                'ticket_number' => $item['ticket'],
             ];
         endforeach;
         return response()->json([
