@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Play;
 use App\Models\Ticket;
 use App\Models\User;
@@ -128,6 +129,16 @@ class APIController extends Controller
         return response()->json([
             'status' => true,
             'ticket' => $ticket,
+            'message' => 'success',
+        ], 200);
+    }
+
+    function getOrderCount(Request $request)
+    {
+        $count = Order::where('ticket_number', $request->json('number'))->where('play_id', $request->json('play_id'))->whereDate('play_date', $request->json('play_date'))->get()->count();
+        return response()->json([
+            'status' => true,
+            'count' => $count,
             'message' => 'success',
         ], 200);
     }

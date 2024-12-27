@@ -18,4 +18,5 @@ Route::prefix('user')->controller(APIController::class)->group(function () {
     Route::post('/play/code', 'getPlayByCode')->name('get.play.by.code');
     Route::post('/update/play', 'updatePlay')->name('play.update');
     Route::post('/ticket', 'getTicket')->name('get.ticket');
+    Route::post('/ordercount', 'getOrderCount')->name('get.order.count');
 });
