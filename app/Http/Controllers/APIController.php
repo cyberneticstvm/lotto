@@ -166,6 +166,7 @@ class APIController extends Controller
             'status' => true,
             'items' => $items,
             'message' => 'Order Saved Successfully!',
+            'role' => $request['role'],
         ], 200);
     }
 
