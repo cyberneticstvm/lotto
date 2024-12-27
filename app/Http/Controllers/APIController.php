@@ -98,6 +98,16 @@ class APIController extends Controller
         ], 200);
     }
 
+    function getPlayByCode(Request $request)
+    {
+        $play = Play::where('code', $request->json('play_code'))->first();
+        return response()->json([
+            'status' => true,
+            'play' => $play,
+            'message' => 'success',
+        ], 200);
+    }
+
     function updatePlay(Request $request)
     {
         Play::where('id', $request->json('play_id'))->update([
