@@ -159,7 +159,7 @@ class APIController extends Controller
         $items = $request['items'];
         foreach (explode(', ', trim($items, '[]')) as $e):
             $data[] = [
-                $e['ticket_number'],
+                $e,
             ];
         endforeach;
         return response()->json([
