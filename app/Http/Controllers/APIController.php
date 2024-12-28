@@ -11,6 +11,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -50,6 +51,40 @@ class APIController extends Controller
                 'message' => 'Invalid Authentication Token',
             ], 500);
         }
+    }
+
+    function getAllUsers(Request $request)
+    {
+        $users = User::all();
+        return response()->json([
+            'status' => true,
+            'users' => $users,
+            'message' => 'success',
+        ], 200);
+    }
+
+    function saveUser(Request $request)
+    {
+        User::insert([
+            'name' => $request->json('name'),
+            'email' => $request->json('email'),
+            'password' => Hash::make($request->json('password')),
+            'role' => $request->json('role'),
+            'parent_id' => $request->json('parent_id'),
+        ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'Success! User saved successfully.',
+        ], 200);
+    }
+
+    function deleteUser(Request $request)
+    {
+        User::where('id', $request->json('uid'))->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Success! User deleted successfully.',
+        ], 200);
     }
 
     function getNextPlay(Request $request)
