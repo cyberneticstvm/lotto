@@ -22,6 +22,6 @@ Route::prefix('user')->controller(APIController::class)->group(function () {
     Route::post('/blockednumbercount', 'getBlockedNumberCount')->name('get.blocked.number.count');
     Route::post('/save/order', 'saveOrder')->name('order.save');
     Route::post('/save/blockednumber', 'saveBlockedNumber')->name('blocked.number.save');
-    Route::post('/get/blockednumber', 'getBlockedNumber')->name('blocked.number.get');
+    Route::post('/get/blockednumbers', 'getBlockedNumber')->name('blocked.number.get');
     Route::post('/delete/blockednumber', 'deleteBlockedNumber')->name('blocked.number.delete');
 });
