@@ -206,7 +206,7 @@ class APIController extends Controller
 
     function getBlockedNumber()
     {
-        $bnos = BlockedNumber::all();
+        $bnos = BlockedNumber::get();
         return response()->json([
             'status' => true,
             'blockednumbers' => $bnos,
