@@ -186,9 +186,7 @@ class APIController extends Controller
         Order::insert($data);
         return response()->json([
             'status' => true,
-            'items' => $data,
             'message' => 'Order Saved Successfully!',
-            'role' => $request->json('role'),
         ], 200);
     }
 
@@ -203,6 +201,16 @@ class APIController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Number blocked successfully.',
+        ], 200);
+    }
+
+    function getBlockedNumber()
+    {
+        $bnos = BlockedNumber::all();
+        return response()->json([
+            'status' => true,
+            'blockednumbers' => $bnos,
+            'message' => 'success',
         ], 200);
     }
 
