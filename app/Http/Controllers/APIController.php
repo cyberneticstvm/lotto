@@ -345,7 +345,7 @@ class APIController extends Controller
 
     function getAllSchemes(Request $request)
     {
-        $schemes = Scheme::leftJoin('tickets', 'schemes.ticket_id', 'tickets.id')->select('tickets.name', 'schemes.position', 'schemes.count', 'schemes.amount', 'schemes.super')->get();
+        $schemes = Scheme::leftJoin('tickets', 'schemes.ticket_id', 'tickets.id')->select('schemes.id', 'tickets.name', 'schemes.position', 'schemes.count', 'schemes.amount', 'schemes.super')->get();
         return response()->json([
             'status' => true,
             'schemes' => $schemes,
