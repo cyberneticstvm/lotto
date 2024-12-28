@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BlockedNumber;
 use App\Models\Order;
 use App\Models\Play;
+use App\Models\Result;
 use App\Models\Ticket;
 use App\Models\User;
 use Carbon\Carbon;
@@ -220,6 +221,15 @@ class APIController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Number removed successfully.',
+        ], 200);
+    }
+
+    function saveResult(Request $request)
+    {
+        Result::create($request->all());
+        return response()->json([
+            'status' => true,
+            'message' => 'Result updated successfully.',
         ], 200);
     }
 
