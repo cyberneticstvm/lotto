@@ -6,6 +6,7 @@ use App\Models\BlockedNumber;
 use App\Models\Order;
 use App\Models\Play;
 use App\Models\Result;
+use App\Models\Scheme;
 use App\Models\Ticket;
 use App\Models\User;
 use Carbon\Carbon;
@@ -339,6 +340,39 @@ class APIController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Ticket updated successfully.',
+        ], 200);
+    }
+
+    function getAllSchemes(Request $request)
+    {
+        $schemes = Scheme::all();
+        return response()->json([
+            'status' => true,
+            'schemes' => $schemes,
+            'message' => 'success',
+        ], 200);
+    }
+
+    function getSchemeForEdit(Request $request)
+    {
+        $scheme = Scheme::where('id', $request->json('scheme_id'))->first();
+        return response()->json([
+            'status' => true,
+            'scheme' => $scheme,
+            'message' => 'success',
+        ], 200);
+    }
+
+    function updateScheme(Request $request)
+    {
+        Scheme::where('id', $request->json('scheme_id'))->update([
+            'amount' => $request->json('amount'),
+            'count' => $request->json('count'),
+            'super' => $request->json('super'),
+        ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'Scheme updated successfully.',
         ], 200);
     }
 

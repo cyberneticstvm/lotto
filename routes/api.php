@@ -31,4 +31,7 @@ Route::prefix('user')->controller(APIController::class)->group(function () {
     Route::post('/ticket/all', 'getAllTickets')->name('ticket.all');
     Route::post('/ticket/edit', 'getTicketForEdit')->name('ticket.edit');
     Route::post('/ticket/update', 'updateTicket')->name('ticket.update');
+    Route::post('/scheme/all', 'getAllSchemes')->name('scheme.all');
+    Route::post('/scheme/edit', 'getSchemeForEdit')->name('scheme.edit');
+    Route::post('/scheme/update', 'updateScheme')->name('scheme.update');
 });
