@@ -192,6 +192,29 @@ class APIController extends Controller
         ], 200);
     }
 
+    function saveBlockedNumber(Request $request)
+    {
+        BlockedNumber::insert([
+            'number' => $request->json('number'),
+            'max_count' => $request->json('max_count'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'Number blocked successfully.',
+        ], 200);
+    }
+
+    function deleteBlockedNumber(Request $request)
+    {
+        BlockedNumber::where('id', $request->json('bnid'))->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Number removed successfully.',
+        ], 200);
+    }
+
     function getHeader($request)
     {
         $headers = collect($request->header())->transform(function ($item) {
