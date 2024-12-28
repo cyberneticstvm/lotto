@@ -308,6 +308,40 @@ class APIController extends Controller
         ], 200);
     }
 
+    function getAllTickets(Request $request)
+    {
+        $tickets = Ticket::all();
+        return response()->json([
+            'status' => true,
+            'tickets' => $tickets,
+            'message' => 'success',
+        ], 200);
+    }
+
+    function getTicketForEdit(Request $request)
+    {
+        $ticket = Ticket::where('id', $request->json('ticket_id'))->first();
+        return response()->json([
+            'status' => true,
+            'ticket' => $ticket,
+            'message' => 'success',
+        ], 200);
+    }
+
+    function updateTicket(Request $request)
+    {
+        Ticket::where('id', $request->json('ticket_id'))->update([
+            'admin_rate' => $request->json('admin_rate'),
+            'leader_rate' => $request->json('leader_rate'),
+            'user_rate' => $request->json('user_rate'),
+            'max_count' => $request->json('max_count'),
+        ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'Ticket updated successfully.',
+        ], 200);
+    }
+
     function getHeader($request)
     {
         $headers = collect($request->header())->transform(function ($item) {

@@ -28,4 +28,7 @@ Route::prefix('user')->controller(APIController::class)->group(function () {
     Route::post('/get/blockednumbers', 'getBlockedNumber')->name('blocked.number.get');
     Route::post('/delete/blockednumber', 'deleteBlockedNumber')->name('blocked.number.delete');
     Route::post('/save/result', 'saveResult')->name('result.save');
+    Route::post('/ticket/all', 'getAllTickets')->name('ticket.all');
+    Route::post('/ticket/edit', 'getTicketForEdit')->name('ticket.edit');
+    Route::post('/ticket/update', 'updateTicket')->name('ticket.update');
 });
