@@ -388,7 +388,7 @@ class APIController extends Controller
 
     function getNumberWiseReport(Request $request)
     {
-        $result = Order::when($request->json('play_id'), function ($q) use ($request) {
+        $result = Order::when($request->json('play_id') > 0, function ($q) use ($request) {
             return $q->where('play_id', $request->json('play_id'));
         })->get();
         return response()->json([
