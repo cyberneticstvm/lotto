@@ -376,6 +376,16 @@ class APIController extends Controller
         ], 200);
     }
 
+    function getResult(Request $request)
+    {
+        $result = Result::whereDate('play_date', $request->json('play_date'))->where('play_id', $request->json('play_id'))->first();
+        return response()->json([
+            'status' => true,
+            'result' => $result,
+            'message' => 'success',
+        ], 200);
+    }
+
     function getHeader($request)
     {
         $headers = collect($request->header())->transform(function ($item) {

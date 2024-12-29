@@ -35,3 +35,7 @@ Route::prefix('user')->controller(APIController::class)->group(function () {
     Route::post('/scheme/edit', 'getSchemeForEdit')->name('scheme.edit');
     Route::post('/scheme/update', 'updateScheme')->name('scheme.update');
 });
+
+Route::prefix('report')->controller(APIController::class)->group(function () {
+    Route::post('/result', 'getResult')->name('get.result');
+});
