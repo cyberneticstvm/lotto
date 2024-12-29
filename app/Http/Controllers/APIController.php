@@ -386,6 +386,19 @@ class APIController extends Controller
         ], 200);
     }
 
+    function getNumberWiseReport(Request $request)
+    {
+        $result = Order::when($request->json('play_id'), function ($q) use ($request) {
+            return $q->where('play_id', $request->json('play_id'));
+        })->get();
+        return response()->json([
+            'status' => true,
+            'record' => $result,
+            'count' => $result->sum('ticket_count'),
+            'message' => 'success',
+        ], 200);
+    }
+
     function getHeader($request)
     {
         $headers = collect($request->header())->transform(function ($item) {
