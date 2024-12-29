@@ -409,7 +409,7 @@ class APIController extends Controller
 
     function getPlayForReport(Request $request)
     {
-        $all = Play::select("'0' as id", "'All' as name");
+        $all = Play::selectRaw("'0' as id, 'All' as name");
         $play = Play::select('id', 'name')->union($all)->get();
         return response()->json([
             'status' => true,
