@@ -37,6 +37,9 @@ Route::prefix('user')->controller(APIController::class)->group(function () {
 });
 
 Route::prefix('report')->controller(APIController::class)->group(function () {
+    Route::post('/get/play', 'getPlayForReport')->name('get.play.for.report');
+
+
     Route::post('/result', 'getResult')->name('get.result');
     Route::post('/numberwise', 'getNumberWiseReport')->name('get.number.wise');
 });

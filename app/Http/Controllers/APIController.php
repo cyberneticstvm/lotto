@@ -407,6 +407,17 @@ class APIController extends Controller
         ], 200);
     }
 
+    function getPlayForReport(Request $request)
+    {
+        $all = Play::select('0 as id', 'All as name');
+        $play = Play::select('id, name')->union($all)->get();
+        return response()->json([
+            'status' => true,
+            'play' => $play,
+            'message' => 'success',
+        ], 200);
+    }
+
     function getHeader($request)
     {
         $headers = collect($request->header())->transform(function ($item) {
