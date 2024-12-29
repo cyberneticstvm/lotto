@@ -437,14 +437,12 @@ class APIController extends Controller
         })->when($request->json('role') == 'user', function ($q) use ($request) {
             return $q->where('user_id', $request->json('user_id'));
         });
-        if ($request->json('role') == 'user') {
-            $user->get();
-        } else {
-            $user->union($all)->get();
+        if ($request->json('role') != 'user') {
+            $user->union($all);
         }
         return response()->json([
             'status' => true,
-            'user' => $user,
+            'user' => $user->get(),
             'message' => 'success',
         ], 200);
     }
