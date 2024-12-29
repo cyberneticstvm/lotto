@@ -407,13 +407,44 @@ class APIController extends Controller
         ], 200);
     }
 
-    function getPlayForReport(Request $request)
+    function getPlaysForReport(Request $request)
     {
         $all = Play::selectRaw("'0' as id, 'All' as name");
         $play = Play::select('id', 'name')->union($all)->get();
         return response()->json([
             'status' => true,
             'play' => $play,
+            'message' => 'success',
+        ], 200);
+    }
+
+    function getTicketsForReport(Request $request)
+    {
+        $all = Ticket::selectRaw("'0' as id, 'All' as name");
+        $ticket = Ticket::select('id', 'name')->union($all)->get();
+        return response()->json([
+            'status' => true,
+            'ticket' => $ticket,
+            'message' => 'success',
+        ], 200);
+    }
+
+    function getUsersForReport(Request $request)
+    {
+        $all = User::selectRaw("'0' as id, 'All' as name");
+        $user = User::select('id', 'name')->when($request->json('role') == 'leader', function ($q) use ($request) {
+            return $q->where('parent_id', $request->json('user_id'));
+        })->when($request->json('role') == 'user', function ($q) use ($request) {
+            return $q->where('user_id', $request->json('user_id'));
+        });
+        if ($request->json('role') == 'user') {
+            $user->get();
+        } else {
+            $user->union($all)->get();
+        }
+        return response()->json([
+            'status' => true,
+            'user' => $user,
             'message' => 'success',
         ], 200);
     }

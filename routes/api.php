@@ -37,7 +37,9 @@ Route::prefix('user')->controller(APIController::class)->group(function () {
 });
 
 Route::prefix('report')->controller(APIController::class)->group(function () {
-    Route::post('/get/play', 'getPlayForReport')->name('get.play.for.report');
+    Route::post('/get/play', 'getPlaysForReport')->name('get.play.for.report');
+    Route::post('/get/ticket', 'getTicketsForReport')->name('get.ticket.for.report');
+    Route::post('/get/user', 'getUsersForReport')->name('get.user.for.report');
 
 
     Route::post('/result', 'getResult')->name('get.result');
