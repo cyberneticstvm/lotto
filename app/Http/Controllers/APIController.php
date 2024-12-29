@@ -449,6 +449,17 @@ class APIController extends Controller
         ], 200);
     }
 
+    function getSalesReport(Request $request)
+    {
+        $data = Order::get();
+        return response()->json([
+            'status' => true,
+            'total' => $data->sum('user_rate'),
+            'count' => $data->sum('ticket_count'),
+            'message' => 'success',
+        ], 200);
+    }
+
     function getHeader($request)
     {
         $headers = collect($request->header())->transform(function ($item) {
