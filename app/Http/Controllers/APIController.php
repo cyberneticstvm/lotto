@@ -392,6 +392,7 @@ class APIController extends Controller
             return $q->where('play_id', $request->json('play_id'));
         })->get();
         return response()->json([
+            'play' => $request->json('play_id'),
             'status' => true,
             'record' => $result,
             'count' => $result->sum('ticket_count'),
