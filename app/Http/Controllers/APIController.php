@@ -482,7 +482,7 @@ class APIController extends Controller
 
     function getSalesReportByBillAll(Request $request)
     {
-        $data = Order::get();
+        $data = Order::where('bill_number', $request->json('bill_number'))->get();
         return response()->json([
             'status' => true,
             'record' => $data,
