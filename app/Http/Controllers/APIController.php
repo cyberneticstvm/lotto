@@ -460,7 +460,14 @@ class APIController extends Controller
 
     function getSalesReportByUser(Request $request)
     {
-        //
+        $data = Order::get();
+        return response()->json([
+            'status' => true,
+            'record' => $data,
+            'total' => $data->sum('user_rate'),
+            'count' => $data->sum('ticket_count'),
+            'message' => 'success',
+        ], 200);
     }
 
     function getSalesReportByBill(Request $request)
