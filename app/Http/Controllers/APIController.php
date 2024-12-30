@@ -458,6 +458,16 @@ class APIController extends Controller
         ], 200);
     }
 
+    function getSalesReportByUser(Request $request)
+    {
+        //
+    }
+
+    function getSalesReportByBill(Request $request)
+    {
+        //
+    }
+
     function getHeader($request)
     {
         $headers = collect($request->header())->transform(function ($item) {
