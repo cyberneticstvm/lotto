@@ -460,7 +460,7 @@ class APIController extends Controller
 
     function getSalesReportByUser(Request $request)
     {
-        $data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->selectRaw("u.id, u.name, SUM(ticket_count) AS ticket_count, SUM(user_rate) AS total")->groupBy('id', 'name')->get();
+        $data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->selectRaw("u.id, u.name,  SUM(orders.ticket_count) AS ticket_count, SUM(orders.user_rate) AS total")->groupBy('id', 'name')->get();
         return response()->json([
             'status' => true,
             'record' => $data,
@@ -472,7 +472,24 @@ class APIController extends Controller
 
     function getSalesReportByBill(Request $request)
     {
-        //
+        $data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->selectRaw("u.id, u.name, orders.bill_number")->groupBy('id', 'name', 'bill_number')->get();
+        return response()->json([
+            'status' => true,
+            'record' => $data,
+            'total' => $data->sum('total'),
+            'count' => $data->sum('ticket_count'),
+            'message' => 'success',
+        ], 200);
+    }
+
+    function getSalesReportByBillAll(Request $request)
+    {
+        $data = Order::get();
+        return response()->json([
+            'status' => true,
+            'record' => $data,
+            'message' => 'success',
+        ], 200);
     }
 
     function getHeader($request)

@@ -47,4 +47,5 @@ Route::prefix('report')->controller(APIController::class)->group(function () {
     Route::post('/sales', 'getSalesReport')->name('get.sales.report');
     Route::post('/sales/user', 'getSalesReportByUser')->name('get.sales.report.user');
     Route::post('/sales/bill', 'getSalesReportByBill')->name('get.sales.report.bill');
+    Route::post('/sales/bill/all', 'getSalesReportByBillAll')->name('get.sales.report.bill.all');
 });
