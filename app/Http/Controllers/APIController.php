@@ -460,7 +460,7 @@ class APIController extends Controller
 
     function getSalesReportByUser(Request $request)
     {
-        $data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->select('u.name', 'u.id', 'orders.bill_number', 'orders.count')->get();
+        $data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->select('u.name', 'u.id', 'orders.bill_number', 'orders.ticket_count')->get();
         return response()->json([
             'status' => true,
             'record' => $data,
