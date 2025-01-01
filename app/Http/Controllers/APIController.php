@@ -460,12 +460,6 @@ class APIController extends Controller
             return $q->where('play_id', $request->json('play_id'));
         })->when($request->json('ticket_id') > 0, function ($q) use ($request) {
             return $q->where('ticket_id', $request->json('ticket_id'));
-        })->when($request->json('ticket_number') != null, function ($q) use ($request) {
-            return $q->where('ticket_number', $request->json('ticket_number'));
-        })->when($request->json('bill_number') != null, function ($q) use ($request) {
-            return $q->where('bill_number', $request->json('bill_number'));
-        })->when($request->json('role') == 'leader', function ($q) use ($request) {
-            return $q->where('parent_id', $request->json('user_id'));
         })->groupBy('ticket_name')->get();
         return response()->json([
             'status' => true,
