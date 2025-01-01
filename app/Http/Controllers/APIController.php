@@ -432,7 +432,7 @@ class APIController extends Controller
     function getUsersForReport(Request $request)
     {
         $all = User::selectRaw("'0' as id, 'All' as name");
-        $user = User::select('id', 'name')->when($request->json('role') == 'leader', function ($q) use ($request) {
+        $user = User::where('role', 'user')->select('id', 'name')->when($request->json('role') == 'leader', function ($q) use ($request) {
             return $q->where('parent_id', $request->json('user_id'));
         })->when($request->json('role') == 'user', function ($q) use ($request) {
             return $q->where('user_id', $request->json('user_id'));
@@ -462,6 +462,10 @@ class APIController extends Controller
             return $q->where('ticket_id', $request->json('ticket_id'));
         })->when($request->json('salesUser'), function ($q) use ($request) {
             return $q->where('user_id', $request->json('salesUser'));
+        })->when($request->json('ticket_number'), function ($q) use ($request) {
+            return $q->where('ticket_number', $request->json('ticket_number'));
+        })->when($request->json('bill_number'), function ($q) use ($request) {
+            return $q->where('bill_number', $request->json('bill_number'));
         })->groupBy('ticket_name')->get();
         return response()->json([
             'status' => true,
