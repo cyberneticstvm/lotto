@@ -450,12 +450,18 @@ class APIController extends Controller
     function getSalesReport(Request $request)
     {
         $col = 'orders.user_rate';
-        if ($request->json('role') == 'admin') $col = 'orders.admin_rate';
-        if ($request->json('role') == 'leader') $col = 'orders.leader_rate';
+        if ($request->json('role') == 'admin'):
+            $col = 'orders.admin_rate';
+        endif;
+        if ($request->json('role') == 'leader'):
+            $col = 'orders.leader_rate';
+        endif;
         $data = Order::selectRaw("SUM(orders.ticket_count) AS ticket_count, SUM($col) * SUM(orders.ticket_count) AS total")->whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id'), function ($q) use ($request) {
             return $q->where('play_id', $request->json('play_id'));
         })->when($request->json('ticket_id'), function ($q) use ($request) {
             return $q->where('ticket_id', $request->json('ticket_id'));
+        })->when($request->json('salesUser'), function ($q) use ($request) {
+            return $q->where('user_id', $request->json('salesUser'));
         })->groupBy('ticket_name')->get();
         return response()->json([
             'status' => true,
