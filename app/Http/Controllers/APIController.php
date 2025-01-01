@@ -479,7 +479,13 @@ class APIController extends Controller
 
     function getSalesReportByUser(Request $request)
     {
-        $data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->selectRaw("u.id, u.name,  SUM(orders.ticket_count) AS ticket_count, SUM(orders.user_rate) AS total")->groupBy('id', 'name')->get();
+        if ($request->json('role') == 'admin'):
+            $col = 'orders.admin_rate';
+        endif;
+        if ($request->json('role') == 'leader'):
+            $col = 'orders.leader_rate';
+        endif;
+        $data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->selectRaw("u.id, u.name,  SUM(orders.ticket_count) AS ticket_count, SUM(orders.user_rate) AS total")->groupBy('id', 'name')->get();
         return response()->json([
             'status' => true,
             'record' => $data,
