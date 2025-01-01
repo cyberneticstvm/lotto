@@ -449,7 +449,7 @@ class APIController extends Controller
 
     function getSalesReport(Request $request)
     {
-        $data = Order::selectRaw("SUM(orders.ticket_count) AS ticket_count, SUM(orders.user_rate) AS total")->whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id'), function ($q) use ($request) {
+        $data = Order::selectRaw("SUM(orders.ticket_count) AS ticket_count, SUM(orders.user_rate) * SUM(orders.ticket_count) AS total")->whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id'), function ($q) use ($request) {
             return $q->where('play_id', $request->json('play_id'));
         })->when($request->json('ticket_id'), function ($q) use ($request) {
             return $q->where('ticket_id', $request->json('ticket_id'));
@@ -457,7 +457,7 @@ class APIController extends Controller
         return response()->json([
             'status' => true,
             'count' => $data->sum('ticket_count'),
-            'total' => $data->sum('total') * $data->sum('ticket_count'),
+            'total' => $data->sum('total'),
             'message' => 'success',
         ], 200);
     }
