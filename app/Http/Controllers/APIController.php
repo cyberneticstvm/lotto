@@ -499,12 +499,11 @@ class APIController extends Controller
         })->when($request->json('salesUser') > 0 || $request->json('role') == 'user', function ($q) use ($request) {
             return $q->where('user_id', ($request->json('salesUser') > 0) ? $request->json('salesUser') : $request->json('user_id'));
         })->groupBy('id', 'name', 'ticket_name')->get();
-        $record = $data->groupBy('name')->get();
         return response()->json([
             'status' => true,
-            'record' => $record,
-            'total' => $record->sum('total'),
-            'count' => $record->sum('ticket_count'),
+            'record' => $data,
+            'total' => $data->sum('total'),
+            'count' => $data->sum('ticket_count'),
             'message' => 'success',
         ], 200);
     }
