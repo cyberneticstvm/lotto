@@ -466,8 +466,6 @@ class APIController extends Controller
             return $q->where('bill_number', $request->json('bill_number'));
         })->when($request->json('role') == 'leader', function ($q) use ($request) {
             return $q->where('parent_id', $request->json('user_id'));
-        })->when($request->json('salesUser') > 0 || $request->json('role') == 'user', function ($q) use ($request) {
-            return $q->where('user_id', ($request->json('salesUser') > 0) ? $request->json('salesUser') : $request->json('user_id'));
         })->groupBy('ticket_name')->get();
         return response()->json([
             'status' => true,
