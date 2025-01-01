@@ -451,6 +451,8 @@ class APIController extends Controller
     {
         $data = Order::whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id'), function ($q) use ($request) {
             return $q->where('play_id', $request->json('play_id'));
+        })->when($request->json('ticket_id'), function ($q) use ($request) {
+            return $q->where('ticket_id', $request->json('ticket_id'));
         })->get();
         return response()->json([
             'status' => true,
