@@ -449,7 +449,9 @@ class APIController extends Controller
 
     function getSalesReport(Request $request)
     {
-        $data = Order::whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->get();
+        $data = Order::whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id'), function ($q) use ($request) {
+            return $q->where('play_id', $request->json('play_id'));
+        })->get();
         return response()->json([
             'status' => true,
             'total' => $data->sum('user_rate'),
