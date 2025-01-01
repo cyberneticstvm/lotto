@@ -486,7 +486,7 @@ class APIController extends Controller
         if ($request->json('role') == 'leader'):
             $col = 'orders.leader_rate';
         endif;
-        $data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->selectRaw("u.id, u.name, SUM(orders.ticket_count) AS ticket_count, SUM($col) * SUM(orders.ticket_count) AS total")->whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id') > 0, function ($q) use ($request) {
+        $data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->selectRaw("u.id, u.name, ticket_name, SUM(orders.ticket_count) AS ticket_count, SUM($col) * SUM(orders.ticket_count) AS total")->whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id') > 0, function ($q) use ($request) {
             return $q->where('play_id', $request->json('play_id'));
         })->when($request->json('ticket_id') > 0, function ($q) use ($request) {
             return $q->where('ticket_id', $request->json('ticket_id'));
@@ -498,12 +498,13 @@ class APIController extends Controller
             return $q->where('parent_id', $request->json('user_id'));
         })->when($request->json('salesUser') > 0 || $request->json('role') == 'user', function ($q) use ($request) {
             return $q->where('user_id', ($request->json('salesUser') > 0) ? $request->json('salesUser') : $request->json('user_id'));
-        })->groupBy('id', 'name')->get();
+        })->groupBy('id', 'name', 'ticket_name');
+        $record = $data->groupBy('name')->get();
         return response()->json([
             'status' => true,
-            'record' => $data,
-            'total' => $data->sum('total'),
-            'count' => $data->sum('ticket_count'),
+            'record' => $record,
+            'total' => $record->sum('total'),
+            'count' => $record->sum('ticket_count'),
             'message' => 'success',
         ], 200);
     }
