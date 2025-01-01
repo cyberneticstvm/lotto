@@ -449,15 +449,15 @@ class APIController extends Controller
 
     function getSalesReport(Request $request)
     {
-        $data = Order::whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id'), function ($q) use ($request) {
+        $data = Order::selectRaw("SUM(orders.ticket_count) AS ticket_count, SUM(orders.user_rate) AS total")->whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id'), function ($q) use ($request) {
             return $q->where('play_id', $request->json('play_id'));
         })->when($request->json('ticket_id'), function ($q) use ($request) {
             return $q->where('ticket_id', $request->json('ticket_id'));
-        })->get();
+        })->groupBy('ticket_name')->get();
         return response()->json([
             'status' => true,
-            'total' => $data->sum('user_rate'),
             'count' => $data->sum('ticket_count'),
+            'total' => $data->sum('total') * $data->sum('ticket_count'),
             'message' => 'success',
         ], 200);
     }
