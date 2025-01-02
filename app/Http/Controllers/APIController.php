@@ -12,6 +12,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 use function PHPUnit\Framework\isEmpty;
@@ -479,14 +480,14 @@ class APIController extends Controller
 
     function getSalesReportByUser(Request $request)
     {
-        $col = 'orders.user_rate';
+        $ratecol = 'o.user_rate';
         if ($request->json('role') == 'admin'):
-            $col = 'orders.admin_rate';
+            $col = 'o.admin_rate';
         endif;
         if ($request->json('role') == 'leader'):
-            $col = 'orders.leader_rate';
+            $col = 'o.leader_rate';
         endif;
-        $data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->selectRaw("u.id, u.name, SUM(orders.ticket_count) AS ticket_count, $col * orders.ticket_count AS total")->whereBetween('play_date', [$request['from_date'], $request['to_date']])->when($request->json('play_id') > 0, function ($q) use ($request) {
+        /*$data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->selectRaw("u.id, u.name, SUM(orders.ticket_count) AS ticket_count, $col * orders.ticket_count AS total")->whereBetween('play_date', [$request['from_date'], $request['to_date']])->when($request->json('play_id') > 0, function ($q) use ($request) {
             return $q->where('play_id', $request->json('play_id'));
         })->when($request->json('ticket_id') > 0, function ($q) use ($request) {
             return $q->where('ticket_id', $request->json('ticket_id'));
@@ -498,8 +499,10 @@ class APIController extends Controller
             return $q->where('parent_id', $request->json('user_id'));
         })->when($request->json('salesUser') > 0 || $request->json('role') == 'user', function ($q) use ($request) {
             return $q->where('user_id', ($request->json('salesUser') > 0) ? $request->json('salesUser') : $request->json('user_id'));
-        })->groupBy('id', 'name');
-        $record = $data->groupBy('name')->get();
+        })->groupBy('id', 'name');*/
+
+        $record = collect(DB::select("SELECT tbl1.id, tbl1.name, SUM(tbl1.ticket_count) AS ticket_count, SUM(tbl1.total) AS total FROM (SELECT u.id, u.name, o.ticket_name, SUM(o.ticket_count) AS ticket_count, SUM(o.user_rate) * SUM(o.ticket_count) AS total FROM orders o LEFT JOIN users u ON o.user_id = u.id WHERE o.play_date BETWEEN ? AND ? AND IF(? > 0, o.play_id = ?, 1) AND IF(? > 0, o.ticket_id = ?, 1) AND IF (? != '', o.ticket_number = ?, 1) AND IF(? != '', o.bill_number = ?, 1) AND IF(? = 'leader', o.parent_id = ?, 1) AND IF(? = 'user', o.user_id = ?, 1) AND IF(? > 0 , o.user_id = ?, 1) GROUP BY id, name, ticket_name) AS tbl1 GROUP BY id, name", [$request->json('from_date'), $request->json('to_date'), $request->json('play_id'), $request->json('play_id'), $request->json('ticket_id'), $request->json('ticket_id'), $request->json('ticket_number'), $request->json('ticket_number'), $request->json('bill_number'), $request->json('bill_number'), $request->json('role'), $request->json('user_id'), $request->json('role'), $request->json('user_id'), $request->json('salesUser'), $request->json('user_id')]));
+
         return response()->json([
             'status' => true,
             'record' => $record,
