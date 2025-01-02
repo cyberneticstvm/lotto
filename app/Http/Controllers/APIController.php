@@ -500,7 +500,7 @@ class APIController extends Controller
 
     function getSalesReportByBill(Request $request)
     {
-        $data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->where('user_id', $request->json('selectedUser'))->selectRaw("u.id, u.name, orders.bill_number")->when($request->json('play_id') > 0, function ($q) use ($request) {
+        $data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->where('user_id', $request->json('selectedUser'))->selectRaw("u.id, u.name, orders.bill_number")->when($request->json('play_id') > 0, function ($q) use ($request) {
             return $q->where('play_id', $request->json('play_id'));
         })->when($request->json('ticket_id') > 0, function ($q) use ($request) {
             return $q->where('ticket_id', $request->json('ticket_id'));
