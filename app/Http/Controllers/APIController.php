@@ -534,7 +534,7 @@ class APIController extends Controller
         if ($request->json('role') == 'leader'):
             $ratecol = 'leader_rate';
         endif;
-        $data = Order::where('bill_number', $request->json('bill_number'))->selectRaw("id, play_date, ticket_number, play_code, ticket_count, $ratecol as price")->get();
+        $data = Order::where('bill_number', $request->json('bill_number'))->selectRaw("id, play_date, ticket_number, play_code, ticket_count, $ratecol * ticket_count as price")->get();
         return response()->json([
             'status' => true,
             'record' => $data,
