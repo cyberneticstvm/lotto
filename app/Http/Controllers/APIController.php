@@ -487,7 +487,7 @@ class APIController extends Controller
         if ($request->json('role') == 'leader'):
             $ratecol = 'o.leader_rate';
         endif;
-        $record = collect(DB::select("SELECT tbl1.id, tbl1.name, SUM(tbl1.ticket_count) AS ticket_count, SUM(tbl1.total) AS total FROM (SELECT u.id, u.name, o.ticket_name, SUM(o.ticket_count) AS ticket_count, SUM($ratecol) * SUM(o.ticket_count) AS total FROM orders o LEFT JOIN users u ON o.user_id = u.id WHERE o.play_date BETWEEN ? AND ? AND IF(? > 0, o.play_id = ?, 1) AND IF(? > 0, o.ticket_id = ?, 1) AND IF (? != '', o.ticket_number = ?, 1) AND IF(? != '', o.bill_number = ?, 1) AND IF(? = 'leader', o.parent_id = ?, 1) AND IF(? = 'user', o.user_id = ?, 1) AND IF(? > 0 , o.user_id = ?, 1) GROUP BY id, name, ticket_name) AS tbl1 GROUP BY id, name", [$request->json('from_date'), $request->json('to_date'), $request->json('play_id'), $request->json('play_id'), $request->json('ticket_id'), $request->json('ticket_id'), $request->json('ticket_number'), $request->json('ticket_number'), $request->json('bill_number'), $request->json('bill_number'), $request->json('role'), $request->json('user_id'), $request->json('role'), $request->json('user_id'), $request->json('salesUser'), $request->json('user_id')]));
+        $record = collect(DB::select("SELECT tbl1.id, tbl1.name, SUM(tbl1.ticket_count) AS ticket_count, SUM(tbl1.total) AS total FROM (SELECT u.id, u.name, o.ticket_name, SUM(o.ticket_count) AS ticket_count, SUM($ratecol) * SUM(o.ticket_count) AS total FROM orders o LEFT JOIN users u ON o.user_id = u.id WHERE o.play_date BETWEEN ? AND ? AND IF(? > 0, o.play_id = ?, 1) AND IF(? > 0, o.ticket_id = ?, 1) AND IF (? != '', o.ticket_number = ?, 1) AND IF(? != '', o.bill_number = ?, 1) AND IF(? = 'leader', o.parent_id = ?, 1) AND IF(? = 'user', o.user_id = ?, 1) AND IF(? > 0 , o.user_id = ?, 1) GROUP BY id, `name`, ticket_name) AS tbl1 GROUP BY id, name", [$request->json('from_date'), $request->json('to_date'), $request->json('play_id'), $request->json('play_id'), $request->json('ticket_id'), $request->json('ticket_id'), $request->json('ticket_number'), $request->json('ticket_number'), $request->json('bill_number'), $request->json('bill_number'), $request->json('role'), $request->json('user_id'), $request->json('role'), $request->json('user_id'), $request->json('salesUser'), $request->json('user_id')]));
 
         return response()->json([
             'status' => true,
@@ -500,14 +500,17 @@ class APIController extends Controller
 
     function getSalesReportByBill(Request $request)
     {
-        $ratecol = 'orders.user_rate';
+        $ratecol = 'o.user_rate';
         if ($request->json('role') == 'admin'):
-            $ratecol = 'orders.admin_rate';
+            $ratecol = 'o.admin_rate';
         endif;
         if ($request->json('role') == 'leader'):
-            $ratecol = 'orders.leader_rate';
+            $ratecol = 'o.leader_rate';
         endif;
-        $data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->selectRaw("u.id, u.name, orders.bill_number, orders.play_date, SUM(orders.ticket_count) AS ticket_count, $ratecol * orders.ticket_count AS total")->whereBetween('orders.play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id') > 0, function ($q) use ($request) {
+        $data = collect(DB::select("SELECT u.id, u.name, o.bill_number, DATE_FORMAT(o.play_date, '%d-%b-%Y') AS play_date, SUM(o.ticket_count) AS ticket_count, SUM($ratecol) * SUM(o.ticket_count) AS total FROM orders o LEFT JOIN users u ON o.user_id = u.id WHERE o.play_date BETWEEN ? AND ? AND IF(? > 0, o.play_id = ?, 1) AND IF(? > 0, o.ticket_id = ?, 1) AND IF (? != '', o.ticket_number = ?, 1) AND IF(? != '', o.bill_number = ?, 1) AND o.user_id = ?", [$request->json('from_date'), $request->json('to_date'), $request->json('play_id'), $request->json('play_id'), $request->json('ticket_id'), $request->json('ticket_id'), $request->json('ticket_number'), $request->json('ticket_number'), $request->json('bill_number'), $request->json('bill_number'), $request->json('selectedUser')]));
+
+
+        /*$data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->selectRaw("u.id, u.name, orders.bill_number, orders.play_date, SUM(orders.ticket_count) AS ticket_count, $ratecol * orders.ticket_count AS total")->whereBetween('orders.play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id') > 0, function ($q) use ($request) {
             return $q->where('orders.play_id', $request->json('play_id'));
         })->when($request->json('ticket_id') > 0, function ($q) use ($request) {
             return $q->where('orders.ticket_id', $request->json('ticket_id'));
@@ -515,7 +518,7 @@ class APIController extends Controller
             return $q->where('orders.ticket_number', $request->json('ticket_number'));
         })->when($request->json('bill_number') != null, function ($q) use ($request) {
             return $q->where('orders.bill_number', $request->json('bill_number'));
-        })->where('orders.user_id', $request->json('selectedUser'))->groupBy('id', 'name', 'bill_number', 'play_date')->get();
+        })->where('orders.user_id', $request->json('selectedUser'))->groupBy('id', 'name', 'bill_number', 'play_date')->get();*/
         return response()->json([
             'status' => true,
             'record' => $data,
@@ -539,6 +542,15 @@ class APIController extends Controller
             'status' => true,
             'record' => $data,
             'message' => 'success',
+        ], 200);
+    }
+
+    function deleteBill(Request $request)
+    {
+        Order::where('bill_number', $request->json('bill_number'))->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Bill deleted successfully.',
         ], 200);
     }
 
