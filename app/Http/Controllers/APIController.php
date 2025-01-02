@@ -515,7 +515,7 @@ class APIController extends Controller
             return $q->where('orders.ticket_number', $request->json('ticket_number'));
         })->when($request->json('bill_number') != null, function ($q) use ($request) {
             return $q->where('orders.bill_number', $request->json('bill_number'));
-        })->groupBy('id', 'name', 'bill_number', 'play_date')->get();
+        })->where('orders.user_id', $request->json('selectedUser'))->groupBy('id', 'name', 'bill_number', 'play_date')->get();
         return response()->json([
             'status' => true,
             'record' => $data,
