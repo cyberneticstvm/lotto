@@ -519,13 +519,22 @@ class APIController extends Controller
         return response()->json([
             'status' => true,
             'record' => $data,
+            'total' => $data->sum('total'),
+            'count' => $data->sum('ticket_count'),
             'message' => 'success',
         ], 200);
     }
 
     function getSalesReportByBillAll(Request $request)
     {
-        $data = Order::where('bill_number', $request->json('bill_number'))->get();
+        $ratecol = 'user_rate';
+        if ($request->json('role') == 'admin'):
+            $ratecol = 'admin_rate';
+        endif;
+        if ($request->json('role') == 'leader'):
+            $ratecol = 'leader_rate';
+        endif;
+        $data = Order::where('bill_number', $request->json('bill_number'))->selectRaw("id, play_date, ticket_number, play_code, ticket_count, $ratecol as price")->get();
         return response()->json([
             'status' => true,
             'record' => $data,
