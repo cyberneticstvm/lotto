@@ -500,14 +500,14 @@ class APIController extends Controller
 
     function getSalesReportByBill(Request $request)
     {
-        $data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->where('user_id', $request->json('selectedUser'))->selectRaw("u.id, u.name, orders.bill_number")->when($request->json('play_id') > 0, function ($q) use ($request) {
-            return $q->where('play_id', $request->json('play_id'));
+        $data = Order::leftJoin('users as u', 'orders.user_id', 'u.id')->selectRaw("u.id, u.name, orders.bill_number")->whereBetween('orders.play_date', [$request->json('from_date'), $request->json('to_date')])->where('user_id', $request->json('selectedUser'))->when($request->json('play_id') > 0, function ($q) use ($request) {
+            return $q->where('orders.play_id', $request->json('play_id'));
         })->when($request->json('ticket_id') > 0, function ($q) use ($request) {
-            return $q->where('ticket_id', $request->json('ticket_id'));
+            return $q->where('orders.ticket_id', $request->json('ticket_id'));
         })->when($request->json('ticket_number') != null, function ($q) use ($request) {
-            return $q->where('ticket_number', $request->json('ticket_number'));
+            return $q->where('orders.ticket_number', $request->json('ticket_number'));
         })->when($request->json('bill_number') != null, function ($q) use ($request) {
-            return $q->where('bill_number', $request->json('bill_number'));
+            return $q->where('orders.bill_number', $request->json('bill_number'));
         })->groupBy('id', 'name', 'bill_number')->get();
         return response()->json([
             'status' => true,
