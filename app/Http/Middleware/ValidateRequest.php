@@ -24,7 +24,7 @@ class ValidateRequest
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'Invalid Authentication Token1',
+                'message' => 'Invalid Authentication Token',
             ], 500);
         }
     }
