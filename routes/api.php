@@ -52,4 +52,5 @@ Route::prefix('report')->controller(APIController::class)->group(function () {
     Route::post('/sales/bill/all', 'getSalesReportByBillAll')->name('get.sales.report.bill.all');
 
     Route::post('/netpay', 'getNetPayReport')->name('get.netpay.report');
+    Route::post('/account/summary', 'getAccountSummaryReport')->name('get.account.summary.report');
 });
