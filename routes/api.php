@@ -53,4 +53,6 @@ Route::prefix('report')->controller(APIController::class)->group(function () {
 
     Route::post('/netpay', 'getNetPayReport')->name('get.netpay.report');
     Route::post('/account/summary', 'getAccountSummaryReport')->name('get.account.summary.report');
+
+    Route::post('/winning', 'getWinningReport')->name('get.winning.report');
 });
