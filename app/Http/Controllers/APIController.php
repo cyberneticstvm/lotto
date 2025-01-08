@@ -538,6 +538,16 @@ class APIController extends Controller
         ], 200);
     }
 
+    function getBillsForDelete(Request $request)
+    {
+        $bills = Order::leftJoin('plays AS p', 'orders.play_id', 'p.id')->whereDate('o.play_date', '>=', Carbon::today())->whereTime('p.locked_from', '>', Carbon::now())->groupBy('o.bill_number')->get();
+        return response()->json([
+            'status' => true,
+            'bills' => $bills,
+            'message' => 'success',
+        ], 200);
+    }
+
     function deleteBill(Request $request)
     {
         Order::where('bill_number', $request->json('bill_number'))->delete();
