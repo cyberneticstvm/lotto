@@ -440,7 +440,7 @@ class APIController extends Controller
         $user = User::where('role', 'user')->select('id', 'name')->when($request->json('role') == 'leader', function ($q) use ($request) {
             return $q->where('parent_id', $request->json('user_id'));
         })->when($request->json('role') == 'user', function ($q) use ($request) {
-            return $q->where('user_id', $request->json('user_id'));
+            return $q->where('id', $request->json('user_id'));
         });
         if ($request->json('role') != 'user') {
             $user->union($all);
