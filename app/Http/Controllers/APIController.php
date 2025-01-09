@@ -461,7 +461,7 @@ class APIController extends Controller
         if ($request->json('role') == 'leader'):
             $ratecol = 'leader_rate';
         endif;
-        $data = Order::selectRaw("SUM(ticket_count) AS ticket_count, $ratecol * ticket_count AS total")->whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->groupBy('ticket_name', 'ticket_number')->get();
+        $data = Order::selectRaw("SUM(ticket_count) AS ticket_count, $ratecol * ticket_count AS total")->whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->get();
         return response()->json([
             'status' => true,
             'count' => $data->sum('ticket_count'),
