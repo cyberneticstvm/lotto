@@ -476,6 +476,7 @@ class APIController extends Controller
         })->groupBy('ticket_name', 'ticket_number')->get();
         return response()->json([
             'status' => true,
+            'data' => $data,
             'count' => $data->sum('ticket_count'),
             'total' => $data->sum('total'),
             'message' => 'success',
