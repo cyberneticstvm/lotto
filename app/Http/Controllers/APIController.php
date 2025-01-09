@@ -461,7 +461,7 @@ class APIController extends Controller
         if ($request->json('role') == 'leader'):
             $ratecol = 'orders.leader_rate';
         endif;
-        $data = Order::selectRaw("ticket_name, ticket_number, SUM(orders.ticket_count) AS ticket_count, $ratecol * orders.ticket_count AS total")->groupBy('ticket_name', 'ticket_number')->get();
+        $data = Order::selectRaw("SUM(orders.ticket_count) AS ticket_count, $ratecol * orders.ticket_count AS total")->groupBy('ticket_name', 'ticket_number', 'user_id')->get();
         return response()->json([
             'status' => true,
             'data' => $data,
