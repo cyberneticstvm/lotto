@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\Response;
 
 class ValidateRequest
@@ -15,7 +16,7 @@ class ValidateRequest
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $token = '1a2b3c4d5e6f7g8h9i';
+        $token = Config::get('myconfig.authkey');
         $headers = collect($request->header())->transform(function ($item) {
             return $item[0];
         });
