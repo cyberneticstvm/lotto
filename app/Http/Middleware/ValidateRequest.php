@@ -19,7 +19,7 @@ class ValidateRequest
         $headers = collect($request->header())->transform(function ($item) {
             return $item[0];
         });
-        if ($request->route()->getPrefix() === 'api') {
+        if ($request->routeIs('api.*')) {
             if ($headers['authorization'] != $token) {
                 return response()->json([
                     'status' => false,
