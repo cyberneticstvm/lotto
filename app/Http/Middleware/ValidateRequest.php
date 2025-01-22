@@ -21,13 +21,15 @@ class ValidateRequest
         });
         if (request()->wantsJson()) {
             $token = Config::get('myconfig.authkey');
+            print($token);
+            die;
             if ($headers['authorization'] == $token) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Invalid Authentication Token',
                 ], 500);
             }
-            return $next($request);
         }
+        return $next($request);
     }
 }
