@@ -19,12 +19,10 @@ class ValidateRequest
         $headers = collect($request->header())->transform(function ($item) {
             return $item[0];
         });
-        print(Config::get('myconfig.authkey'));
+        dd($request);
         die;
         if ($request->ajax()) {
             $token = Config::get('myconfig.authkey');
-            print($token);
-            die;
             if ($headers['authorization'] == $token) {
                 return response()->json([
                     'status' => false,
