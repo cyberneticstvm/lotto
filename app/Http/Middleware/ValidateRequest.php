@@ -19,7 +19,7 @@ class ValidateRequest
         $headers = collect($request->header())->transform(function ($item) {
             return $item[0];
         });
-        print($request->getPrefix());
+        print($request->route()->getPrefix());
         die;
         if ($request->ajax()) {
             $token = Config::get('myconfig.authkey');
