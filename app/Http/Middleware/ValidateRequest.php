@@ -16,11 +16,11 @@ class ValidateRequest
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $token = Config::get('myconfig.authkey');
         $headers = collect($request->header())->transform(function ($item) {
             return $item[0];
         });
-        if ($request->routeIs('api.*')) {
+        if ($request->wantsJson()) {
+            $token = Config::get('myconfig.authkey');
             if ($headers['authorization'] == $token) {
                 return response()->json([
                     'status' => false,
