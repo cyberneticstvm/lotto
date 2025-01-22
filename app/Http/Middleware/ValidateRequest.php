@@ -27,7 +27,7 @@ class ValidateRequest
                     'message' => 'Invalid Authentication Token',
                 ], 500);
             }
+            return $next($request);
         }
-        return $next($request);
     }
 }
