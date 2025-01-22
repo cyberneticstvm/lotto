@@ -19,7 +19,9 @@ class ValidateRequest
         $headers = collect($request->header())->transform(function ($item) {
             return $item[0];
         });
-        if (request()->wantsJson()) {
+        print($request->header('Host'));
+        die;
+        if ($request->ajax()) {
             $token = Config::get('myconfig.authkey');
             print($token);
             die;
