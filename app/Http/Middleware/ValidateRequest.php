@@ -19,7 +19,7 @@ class ValidateRequest
         $headers = collect($request->header())->transform(function ($item) {
             return $item[0];
         });
-        if ($request->wantsJson()) {
+        if (request()->wantsJson()) {
             $token = Config::get('myconfig.authkey');
             if ($headers['authorization'] == $token) {
                 return response()->json([
