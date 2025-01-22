@@ -16,7 +16,8 @@ class ValidateRequest
     public function handle(Request $request, Closure $next): Response
     {
         $token = '1a2b3c4d5e6f7g8h9i';
-        print($request->header());
+        dd($request->header());
+        die;
         $headers = collect($request->header())->transform(function ($item) {
             return $item[0];
         });
