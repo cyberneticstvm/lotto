@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Str;
 
 class ValidateRequest
 {
@@ -19,9 +20,7 @@ class ValidateRequest
         $headers = collect($request->header())->transform(function ($item) {
             return $item[0];
         });
-        dd($request->url());
-        die;
-        if ($request->ajax()) {
+        if (Str::contains($request->url(), ['api'])) {
             $token = Config::get('myconfig.authkey');
             if ($headers['authorization'] == $token) {
                 return response()->json([
