@@ -21,7 +21,7 @@ class ValidateRequest
             return $item[0];
         });
         if ($request->routeIs('api.*')) {
-            if ($headers['authorization'] != $token) {
+            if ($headers['authorization'] == $token) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Invalid Authentication Token',
