@@ -22,7 +22,7 @@ class ValidateRequest
         });
         if (Str::contains($request->url(), ['api'])) {
             $token = Config::get('myconfig.authkey');
-            if ($headers['authorization'] == $token) {
+            if ($headers['authorization'] != $token) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Invalid Authentication Token',
