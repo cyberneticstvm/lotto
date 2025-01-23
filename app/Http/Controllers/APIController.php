@@ -517,7 +517,7 @@ class APIController extends Controller
         if ($request->json('role') == 'leader'):
             $ratecol = 'o.leader_rate';
         endif;
-        $data = collect(DB::select("SELECT tbl1.id, tbl1.name, tbl1.bill_number, tbl1.play_date, SUM(tbl1.ticket_count) AS ticket_count, SUM(tbl1.total) AS total FROM (SELECT u.id, u.name, o.bill_number, o.ticket_name, o.ticket_number, DATE_FORMAT(o.play_date, '%d-%b-%Y') AS play_date, SUM(o.ticket_count) AS ticket_count, $ratecol * o.ticket_count AS total FROM orders o LEFT JOIN users u ON o.user_id = u.id WHERE o.play_date BETWEEN ? AND ? AND IF(? > 0, o.play_id = ?, 1) AND IF(? > 0, o.ticket_id = ?, 1) AND IF (? != '', o.ticket_number = ?, 1) AND IF(? != '', o.bill_number = ?, 1) AND o.user_id = ? GROUP BY id, `name`, ticket_name, ticket_number, o.user_id) AS tbl1 GROUP BY bill_number", [$request->json('from_date'), $request->json('to_date'), $request->json('play_id'), $request->json('play_id'), $request->json('ticket_id'), $request->json('ticket_id'), $request->json('ticket_number'), $request->json('ticket_number'), $request->json('bill_number'), $request->json('bill_number'), $request->json('selectedUser')]));
+        $data = collect(DB::select("SELECT tbl1.id, tbl1.name, tbl1.bill_number, tbl1.play_date, SUM(tbl1.ticket_count) AS ticket_count, SUM(tbl1.total) AS total FROM (SELECT u.id, u.name, o.bill_number, o.ticket_name, o.ticket_number, DATE_FORMAT(o.play_date, '%d-%b-%Y') AS play_date, SUM(o.ticket_count) AS ticket_count, $ratecol * o.ticket_count AS total FROM orders o LEFT JOIN users u ON o.user_id = u.id WHERE o.play_date BETWEEN ? AND ? AND IF(? > 0, o.play_id = ?, 1) AND IF(? > 0, o.ticket_id = ?, 1) AND IF (? != '', o.ticket_number = ?, 1) AND IF(? != '', o.bill_number = ?, 1) AND o.user_id = ? AND IF(?=1, o.ticket_id IN(6,7,8), 1) AND IF(?=2, o.ticket_id IN(3,4,5), 1) AND IF(?=3, o.ticket_id IN(1,2), 1) GROUP BY id, `name`, ticket_name, ticket_number, o.user_id) AS tbl1 GROUP BY bill_number", [$request->json('from_date'), $request->json('to_date'), $request->json('play_id'), $request->json('play_id'), $request->json('ticket_id'), $request->json('ticket_id'), $request->json('ticket_number'), $request->json('ticket_number'), $request->json('bill_number'), $request->json('bill_number'), $request->json('selectedUser'), $request->json('option'), $request->json('option'), $request->json('option')]));
         return response()->json([
             'status' => true,
             'record' => $data,
@@ -536,7 +536,13 @@ class APIController extends Controller
         if ($request->json('role') == 'leader'):
             $ratecol = 'leader_rate';
         endif;
-        $data = Order::where('bill_number', $request->json('bill_number'))->selectRaw("id, play_date, ticket_number, play_code, ticket_count, $ratecol * ticket_count as price")->get();
+        $data = Order::where('bill_number', $request->json('bill_number'))->selectRaw("id, play_date, ticket_number, play_code, ticket_count, $ratecol * ticket_count as price")->when($request->json('option') == 1, function ($q) {
+            return $q->whereIn('ticket_id', [6, 7, 8]);
+        })->when($request->json('option') == 2, function ($q) {
+            return $q->whereIn('ticket_id', [3, 4, 5]);
+        })->when($request->json('option') == 3, function ($q) {
+            return $q->whereIn('ticket_id', [1, 2]);
+        })->get();
         return response()->json([
             'status' => true,
             'record' => $data,
