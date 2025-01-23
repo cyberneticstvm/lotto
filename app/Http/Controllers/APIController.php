@@ -403,6 +403,12 @@ class APIController extends Controller
             return $q->where('parent_id', $request->json('user_id'));
         })->when($request->json('role') == 'user', function ($q) use ($request) {
             return $q->where('user_id', $request->json('user_id'));
+        })->when($request->json('option') == 1, function ($q) {
+            return $q->whereIn('ticket_id', [6, 7, 8]);
+        })->when($request->json('option') == 2, function ($q) {
+            return $q->whereIn('ticket_id', [3, 4, 5]);
+        })->when($request->json('option') == 3, function ($q) {
+            return $q->whereIn('ticket_id', [1, 2]);
         })->get();
         return response()->json([
             'status' => true,
