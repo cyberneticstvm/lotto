@@ -542,7 +542,9 @@ class APIController extends Controller
         if ($request->json('role') == 'leader'):
             $ratecol = 'leader_rate';
         endif;
-        $data = Order::where('bill_number', $request->json('bill_number'))->selectRaw("id, play_date, ticket_number, play_code, ticket_count, $ratecol * ticket_count as price")->when($request->json('option') == 1, function ($q) {
+        $day = date('Y-m-d');
+        $time = date('H:i:s');
+        $data = Order::leftJoin('plays AS p', 'orders.play_id', 'p.id')->where('orders.bill_number', $request->json('bill_number'))->selectRaw("orders.id, orders.play_date, orders.ticket_number, orders.play_code, orders.ticket_count, $ratecol * orders.ticket_count as price, CASE WHEN orders.play_date >= $day AND p.locked_from > $time THEN 'y' ELSE 'n' END AS dlt")->when($request->json('option') == 1, function ($q) {
             return $q->whereIn('ticket_id', [6, 7, 8]);
         })->when($request->json('option') == 2, function ($q) {
             return $q->whereIn('ticket_id', [3, 4, 5]);
