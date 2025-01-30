@@ -560,7 +560,7 @@ class APIController extends Controller
 
     function getBillsForDelete(Request $request)
     {
-        $bills = Order::leftJoin('plays AS p', 'orders.play_id', 'p.id')->whereDate('orders.play_date', '>=', Carbon::today())->whereTime('p.locked_from', '>', Carbon::now())->groupBy('orders.bill_number')->get();
+        $bills = Order::leftJoin('plays AS p', 'orders.play_id', 'p.id')->whereDate('orders.play_date', '>=', Carbon::today())->whereTime('p.locked_from', '>', Carbon::now())->get();
         return response()->json([
             'status' => true,
             'bills' => $bills,
