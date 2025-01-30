@@ -574,7 +574,11 @@ class APIController extends Controller
 
     function deleteBill(Request $request)
     {
-        Order::where('bill_number', $request->json('bill_number'))->where('id', $request->json('bill_id'))->delete();
+        if ($request->json('bill_id') > 0):
+            Order::where('bill_number', $request->json('bill_number'))->where('id', $request->json('bill_id'))->delete();
+        else:
+            Order::where('bill_number', $request->json('bill_number'))->delete();
+        endif;
         return response()->json([
             'status' => true,
             'message' => 'Bill deleted successfully.',
