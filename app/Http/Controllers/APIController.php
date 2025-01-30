@@ -204,11 +204,11 @@ class APIController extends Controller
         if ($role != 'leader'):
             $uid = User::where('id', $uid)->first()->parent_id;
         endif;
-        $billnumber = Order::max('bill_number') + 1;
+        $billnumber = Order::max('bill_number');
         $data = [];
         foreach ($items as $key => $item):
             $data[] = [
-                'bill_number' => $billnumber ?? 1,
+                'bill_number' => $billnumber ? $billnumber + 1 : 1,
                 'ticket_id' => $item['ticketId'],
                 'ticket_name' => strtolower($item['ticket']),
                 'user_id' => $item['userId'],
