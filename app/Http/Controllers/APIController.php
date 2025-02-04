@@ -178,20 +178,20 @@ class APIController extends Controller
 
     function getOrderCount(Request $request)
     {
-        $count = Order::where('ticket_number', $request->json('ticket_number'))->where('play_id', $request->json('play_id'))->whereDate('play_date', Carbon::parse($request->json('play_date')))->get()->count();
+        $order = Order::where('ticket_number', $request->json('ticket_number'))->where('play_id', $request->json('play_id'))->whereDate('play_date', Carbon::parse($request->json('play_date')))->get();
         return response()->json([
             'status' => true,
-            'count' => $count,
+            'count' => $order->sum('ticket_count'),
             'message' => 'success',
         ], 200);
     }
 
     function getBlockedNumberCount(Request $request)
     {
-        $count = BlockedNumber::where('number', $request->json('number'))->get()->count();
+        $count = BlockedNumber::where('number', $request->json('number'))->first()->max_count;
         return response()->json([
             'status' => true,
-            'count' => $count,
+            'count' => $count ?? 0,
             'message' => 'success',
         ], 200);
     }
