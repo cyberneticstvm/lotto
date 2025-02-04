@@ -188,10 +188,10 @@ class APIController extends Controller
 
     function getBlockedNumberCount(Request $request)
     {
-        $count = BlockedNumber::where('number', $request->json('number'))->first()->max_count;
+        $number = BlockedNumber::where('number', $request->json('number'))->first();
         return response()->json([
             'status' => true,
-            'count' => $count ?? 0,
+            'count' => $number ? $number->max_count : 0,
             'message' => 'success',
         ], 200);
     }
