@@ -384,7 +384,6 @@ class APIController extends Controller
     function getResult(Request $request)
     {
         $result = Result::whereDate('play_date', $request->json('play_date'))->where('play_id', $request->json('play_id'))->first();
-        sort($result->toArray());
         return response()->json([
             'status' => true,
             'result' => $result,
