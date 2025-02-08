@@ -47,211 +47,211 @@
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P1</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p1') }}" name="p1" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p1') }}" name="p1" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P2</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p2') }}" name="p2" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p2') }}" name="p2" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P3</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p3') }}" name="p3" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p3') }}" name="p3" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P4</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p4') }}" name="p4" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p4') }}" name="p4" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P5</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p5') }}" name="p5" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p5') }}" name="p5" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P6</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p6') }}" name="p6" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p6') }}" name="p6" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P7</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p7') }}" name="p7" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p7') }}" name="p7" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P8</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p8') }}" name="p8" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p8') }}" name="p8" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P9</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p9') }}" name="p9" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p9') }}" name="p9" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P10</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p10') }}" name="p10" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p10') }}" name="p10" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P11</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p11') }}" name="p11" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p11') }}" name="p11" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P12</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p12') }}" name="p12" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p12') }}" name="p12" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P13</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p13') }}" name="p13" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p13') }}" name="p13" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P14</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p14') }}" name="p14" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p14') }}" name="p14" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P15</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p15') }}" name="p15" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p15') }}" name="p15" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P16</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p16') }}" name="p16" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p16') }}" name="p16" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P17</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p17') }}" name="p17" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p17') }}" name="p17" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P18</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p18') }}" name="p18" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p18') }}" name="p18" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P19</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p19') }}" name="p19" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p19') }}" name="p19" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P20</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p20') }}" name="p20" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p20') }}" name="p20" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P21</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p21') }}" name="p21" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p21') }}" name="p21" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P22</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p22') }}" name="p22" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p22') }}" name="p22" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P23</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p23') }}" name="p23" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p23') }}" name="p23" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P24</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p24') }}" name="p24" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p24') }}" name="p24" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P25</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p25') }}" name="p25" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p25') }}" name="p25" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P26</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p26') }}" name="p26" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p26') }}" name="p26" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P27</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p27') }}" name="p27" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p27') }}" name="p27" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P28</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p28') }}" name="p28" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p28') }}" name="p28" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P29</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p29') }}" name="p29" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p29') }}" name="p29" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P30</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p30') }}" name="p30" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p30') }}" name="p30" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P31</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p31') }}" name="p31" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p31') }}" name="p31" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P32</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p32') }}" name="p32" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p32') }}" name="p32" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P33</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p33') }}" name="p33" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p33') }}" name="p33" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P34</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p34') }}" name="p34" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p34') }}" name="p34" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="row mb-1">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">P35</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control num" value="{{ old('p35') }}" name="p35" max="999" placeholder="xxx">
+                                <input type="number" class="form-control num" value="{{ old('p35') }}" name="p35" max="999" placeholder="xxx">
                             </div>
                         </div>
                         <div class="text-center mt-3">
