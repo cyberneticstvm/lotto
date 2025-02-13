@@ -550,7 +550,7 @@ class APIController extends Controller
             return $q->whereIn('ticket_id', [3, 4, 5]);
         })->when($request->json('option') == 3, function ($q) {
             return $q->whereIn('ticket_id', [1, 2]);
-        })->get();
+        })->groupBy('bill_number')->get();
         return response()->json([
             'status' => true,
             'record' => $data,
