@@ -56,6 +56,6 @@ Route::prefix('report')->controller(APIController::class)->group(function () {
     Route::post('/account/summary', 'getAccountSummaryReport')->name('get.account.summary.report');
 
     Route::post('/winning', 'getWinningDetailsBillReport')->name('get.winning.report');
-    Route::post('/winning/details', 'getWinningDetailsReport')->name('get.winning.details.report');
+    Route::post('/winning/details', 'getWinningDetailsBillReport')->name('get.winning.details.report');
     Route::post('/winning/details/bill', 'getWinningDetailsBillReport')->name('get.winning.details.bill.report');
 });
