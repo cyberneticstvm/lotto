@@ -684,7 +684,7 @@ class APIController extends Controller
             'count' => $data->sum('ticket_count'),
             'amount' => $data->sum('won') - $data->sum('super'),
             'super' => $data->sum('super'),
-            'stockist' => User::where('id', $user->parent_id)->first()->name,
+            'stockist' => User::where('id', $user->parent_id)->first()?->name ?? '',
             'message' => 'success',
         ], 200);
     }
