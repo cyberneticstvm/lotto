@@ -661,7 +661,7 @@ class APIController extends Controller
         return response()->json([
             'status' => true,
             'record' => $data,
-            'total' => $data->sum('amount'),
+            'total' => $data->sum('amount') + $data->sum('super'),
             'count' => $data->sum('ticket_count'),
             'message' => 'success',
         ], 200);
