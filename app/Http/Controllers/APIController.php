@@ -682,9 +682,9 @@ class APIController extends Controller
         return response()->json([
             'status' => true,
             'record' => $data,
-            'total' => $data->sum('won'),
+            'total' => $data->sum('won') + $data->sum('super'),
             'count' => $data->sum('ticket_count'),
-            'amount' => $data->sum('won') - $data->sum('super'),
+            'amount' => $data->sum('won'),
             'super' => $data->sum('super'),
             'stockist' => User::where('id', $user->parent_id ?? 0)->first()?->name ?? 'Na',
             'message' => 'success',
