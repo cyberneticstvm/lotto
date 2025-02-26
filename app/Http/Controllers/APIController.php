@@ -409,7 +409,7 @@ class APIController extends Controller
             return $q->whereIn('ticket_id', [3, 4, 5]);
         })->when($request->json('option') == 3, function ($q) {
             return $q->whereIn('ticket_id', [1, 2]);
-        })->orderBy('ticket_number')->get();
+        })->orderByRaw("CAST(ticket_number AS UNSIGNED)")->get();
         return response()->json([
             'status' => true,
             'record' => $result,
