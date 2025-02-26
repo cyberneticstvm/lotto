@@ -565,11 +565,19 @@ class APIController extends Controller
         })->when($request->json('role') == 'leader', function ($q) use ($request) {
             return $q->where('orders.parent_id', $request->json('user_id'));
         })->get();
-        return response()->json([
-            'status' => true,
-            'bills' => $bills,
-            'message' => 'success',
-        ], 200);
+        if ($bills):
+            return response()->json([
+                'status' => true,
+                'bills' => $bills,
+                'message' => 'success',
+            ], 200);
+        else:
+            return response()->json([
+                'status' => true,
+                'bills' => null,
+                'message' => 'failed',
+            ], 404);
+        endif;
     }
 
     function deleteBill(Request $request)
