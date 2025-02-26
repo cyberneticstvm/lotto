@@ -560,10 +560,10 @@ class APIController extends Controller
 
     function getBillsForDelete(Request $request)
     {
-        $bills = Order::leftJoin('plays AS p', 'orders.play_id', 'p.id')->whereDate('orders.play_date', '>=', Carbon::today())->whereTime('p.locked_from', '>', Carbon::now())->select('orders.id', 'orders.play_date', 'orders.ticket_name', 'orders.ticket_number', 'orders.bill_number', 'p.name')->when($request->json('role') == 'user', function ($q) use ($request) {
-            return $q->where('user_id', $request->json('user_id'));
+        $bills = Order::leftJoin('plays AS p', 'orders.play_id', 'p.id')->whereDate('orders.play_date', '>=', Carbon::today())->whereTime('p.locked_from', '>', Carbon::now())->select('orders.id', 'orders.play_date', 'orders.play_code', 'orders.ticket_number', 'orders.bill_number', 'p.name')->when($request->json('role') == 'user', function ($q) use ($request) {
+            return $q->where('orders.user_id', $request->json('user_id'));
         })->when($request->json('role') == 'leader', function ($q) use ($request) {
-            return $q->where('parent_id', $request->json('user_id'));
+            return $q->where('orders.parent_id', $request->json('user_id'));
         })->get();
         return response()->json([
             'status' => true,
