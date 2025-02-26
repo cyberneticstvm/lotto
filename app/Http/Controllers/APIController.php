@@ -157,8 +157,8 @@ class APIController extends Controller
     {
         Play::where('id', $request->json('play_id'))->update([
             'name' => $request->json('name'),
-            'locked_from' => $request->json('locked_from'),
-            'locked_to' => $request->json('locked_to'),
+            'locked_from' => Carbon::parse($request->json('locked_from'))->format('H:i:s'),
+            'locked_to' => Carbon::parse($request->json('locked_to'))->format('H:i:s'),
         ]);
         return response()->json([
             'status' => true,
