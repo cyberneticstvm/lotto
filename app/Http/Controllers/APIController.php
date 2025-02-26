@@ -461,12 +461,12 @@ class APIController extends Controller
     function getSalesReport(Request $request)
     {
         $ratecol = 'orders.user_rate';
-        /*if ($request->json('role') == 'admin'):
+        if ($request->json('role') == 'admin'):
             $ratecol = 'orders.admin_rate';
         endif;
         if ($request->json('role') == 'leader'):
             $ratecol = 'orders.leader_rate';
-        endif;*/
+        endif;
         $data = Order::selectRaw("orders.id, SUM(orders.ticket_count) AS ticket_count, $ratecol * orders.ticket_count AS total")->whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id') > 0, function ($q) use ($request) {
             return $q->where('play_id', $request->json('play_id'));
         })->when($request->json('ticket_id') > 0, function ($q) use ($request) {
