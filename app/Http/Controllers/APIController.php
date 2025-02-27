@@ -545,7 +545,7 @@ class APIController extends Controller
         if ($request->json('role') == 'leader'):
             $ratecol = 'leader_rate';
         endif;*/
-        $data = Order::leftJoin('users u', 'u.id', 'orders.user_id')->where('orders.bill_number', $request->json('bill_number'))->selectRaw("orders.id, orders.play_date, orders.bill_number, orders.ticket_number, orders.play_code, orders.ticket_count, CASE WHEN u.role = 'user' THEN orders.user_rate * orders.ticket_count WHEN u.role = 'leader' THEN orders.leader_rate * orders.ticket_count ELSE orders.admin_rate * orders.ticket_count END AS price")->when($request->json('option') == 1, function ($q) {
+        $data = Order::leftJoin('users as u', 'u.id', 'orders.user_id')->where('orders.bill_number', $request->json('bill_number'))->selectRaw("orders.id, orders.play_date, orders.bill_number, orders.ticket_number, orders.play_code, orders.ticket_count, CASE WHEN u.role = 'user' THEN orders.user_rate * orders.ticket_count WHEN u.role = 'leader' THEN orders.leader_rate * orders.ticket_count ELSE orders.admin_rate * orders.ticket_count END AS price")->when($request->json('option') == 1, function ($q) {
             return $q->whereIn('ticket_id', [6, 7, 8]);
         })->when($request->json('option') == 2, function ($q) {
             return $q->whereIn('ticket_id', [3, 4, 5]);
