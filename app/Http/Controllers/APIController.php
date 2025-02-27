@@ -461,7 +461,7 @@ class APIController extends Controller
 
     function getSalesReport(Request $request)
     {
-        $data = Order::leftJoin('users as u', 'u.id', 'orders.user_id')->selectRaw("orders.id, SUM(orders.ticket_count) AS ticket_count, CASE WHEN u.role = 'user' THEN o.user_rate * o.ticket_count WHEN u.role = 'leader' THEN o.leader_rate * o.ticket_count ELSE o.admin_rate * o.ticket_count END AS total")->whereBetween('orders.play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id') > 0, function ($q) use ($request) {
+        $data = Order::leftJoin('users as u', 'u.id', 'orders.user_id')->selectRaw("orders.id, SUM(orders.ticket_count) AS ticket_count, CASE WHEN u.role = 'user' THEN orders.user_rate * orders.ticket_count WHEN u.role = 'leader' THEN orders.leader_rate * orders.ticket_count ELSE orders.admin_rate * orders.ticket_count END AS total")->whereBetween('orders.play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id') > 0, function ($q) use ($request) {
             return $q->where('orders.play_id', $request->json('play_id'));
         })->when($request->json('ticket_id') > 0, function ($q) use ($request) {
             return $q->where('orders.ticket_id', $request->json('ticket_id'));
