@@ -461,31 +461,24 @@ class APIController extends Controller
 
     function getSalesReport(Request $request)
     {
-        $ratecol = 'orders.user_rate';
-        if ($request->json('role') == 'admin'):
-            $ratecol = 'orders.admin_rate';
-        endif;
-        if ($request->json('role') == 'leader'):
-            $ratecol = 'orders.leader_rate';
-        endif;
-        $data = Order::selectRaw("orders.id, SUM(orders.ticket_count) AS ticket_count, $ratecol * orders.ticket_count AS total")->whereBetween('play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id') > 0, function ($q) use ($request) {
-            return $q->where('play_id', $request->json('play_id'));
+        $data = Order::leftJoin('users as u', 'u.id', 'orders.user_id')->selectRaw("orders.id, SUM(orders.ticket_count) AS ticket_count, CASE WHEN u.role = 'user' THEN o.user_rate * o.ticket_count WHEN u.role = 'leader' THEN o.leader_rate * o.ticket_count ELSE o.admin_rate * o.ticket_count END AS total")->whereBetween('orders.play_date', [$request->json('from_date'), $request->json('to_date')])->when($request->json('play_id') > 0, function ($q) use ($request) {
+            return $q->where('orders.play_id', $request->json('play_id'));
         })->when($request->json('ticket_id') > 0, function ($q) use ($request) {
-            return $q->where('ticket_id', $request->json('ticket_id'));
+            return $q->where('orders.ticket_id', $request->json('ticket_id'));
         })->when($request->json('ticket_number') != null, function ($q) use ($request) {
-            return $q->where('ticket_number', $request->json('ticket_number'));
+            return $q->where('orders.ticket_number', $request->json('ticket_number'));
         })->when($request->json('bill_number') != null, function ($q) use ($request) {
-            return $q->where('bill_number', $request->json('bill_number'));
+            return $q->where('orders.bill_number', $request->json('bill_number'));
         })->when($request->json('role') == 'leader', function ($q) use ($request) {
-            return $q->where('parent_id', $request->json('user_id'));
+            return $q->where('orders.parent_id', $request->json('user_id'));
         })->when($request->json('salesUser') > 0 || $request->json('role') == 'user', function ($q) use ($request) {
-            return $q->where('user_id', ($request->json('salesUser') > 0) ? $request->json('salesUser') : $request->json('user_id'));
+            return $q->where('orders.user_id', ($request->json('salesUser') > 0) ? $request->json('salesUser') : $request->json('user_id'));
         })->when($request->json('option') == 1, function ($q) {
-            return $q->whereIn('ticket_id', [6, 7, 8]);
+            return $q->whereIn('orders.ticket_id', [6, 7, 8]);
         })->when($request->json('option') == 2, function ($q) {
-            return $q->whereIn('ticket_id', [3, 4, 5]);
+            return $q->whereIn('orders.ticket_id', [3, 4, 5]);
         })->when($request->json('option') == 3, function ($q) {
-            return $q->whereIn('ticket_id', [1, 2]);
+            return $q->whereIn('orders.ticket_id', [1, 2]);
         })->groupBy('orders.id')->get();
         return response()->json([
             'status' => true,
@@ -497,13 +490,6 @@ class APIController extends Controller
 
     function getSalesReportByUser(Request $request)
     {
-        $ratecol = 'o.user_rate';
-        /*if ($request->json('role') == 'admin'):
-            $ratecol = 'o.admin_rate';
-        endif;
-        if ($request->json('role') == 'leader'):
-            $ratecol = 'o.leader_rate';
-        endif;*/
         $record = collect(DB::select("SELECT tbl1.id, tbl1.name, SUM(tbl1.ticket_count) AS ticket_count, SUM(tbl1.total) AS total FROM (SELECT o.id AS orderid, u.id, u.name, o.ticket_name, o.ticket_number, SUM(o.ticket_count) AS ticket_count, CASE WHEN u.role = 'user' THEN o.user_rate * o.ticket_count WHEN u.role = 'leader' THEN o.leader_rate * o.ticket_count ELSE o.admin_rate * o.ticket_count END AS total FROM orders o LEFT JOIN users u ON o.user_id = u.id WHERE o.play_date BETWEEN ? AND ? AND IF(? > 0, o.play_id = ?, 1) AND IF(? > 0, o.ticket_id = ?, 1) AND IF (? != '', o.ticket_number = ?, 1) AND IF(? != '', o.bill_number = ?, 1) AND IF(? = 'leader', o.parent_id = ?, 1) AND IF(? = 'user', o.user_id = ?, 1) AND IF(? > 0 , o.user_id = ?, 1) AND IF(?=1, o.ticket_id IN(6,7,8), 1) AND IF(?=2, o.ticket_id IN(3,4,5), 1) AND IF(?=3, o.ticket_id IN(1,2), 1) GROUP BY orderid) AS tbl1 GROUP BY id, `name`", [$request->json('from_date'), $request->json('to_date'), $request->json('play_id'), $request->json('play_id'), $request->json('ticket_id'), $request->json('ticket_id'), $request->json('ticket_number'), $request->json('ticket_number'), $request->json('bill_number'), $request->json('bill_number'), $request->json('role'), $request->json('user_id'), $request->json('role'), $request->json('user_id'), $request->json('salesUser'), $request->json('user_id'), $request->json('option'), $request->json('option'), $request->json('option')]));
 
         return response()->json([
@@ -517,13 +503,6 @@ class APIController extends Controller
 
     function getSalesReportByBill(Request $request)
     {
-        $ratecol = 'o.user_rate';
-        /*if ($request->json('role') == 'admin'):
-            $ratecol = 'o.admin_rate';
-        endif;
-        if ($request->json('role') == 'leader'):
-            $ratecol = 'o.leader_rate';
-        endif;*/
         $day = date('Y-m-d');
         $time = date('H:i:s');
         $data = collect(DB::select("SELECT tbl1.id, tbl1.name, tbl1.bill_number, tbl1.play_date, SUM(tbl1.ticket_count) AS ticket_count, SUM(tbl1.total) AS total, tbl1.dlt, tbl1.play_time FROM (SELECT o.id AS orderid, u.id, u.name, o.bill_number, o.ticket_name, o.ticket_number, DATE_FORMAT(o.play_date, '%d/%m/%y') AS play_date, DATE_FORMAT(o.created_at, '%H:%i:%s') AS play_time, SUM(o.ticket_count) AS ticket_count, CASE WHEN u.role = 'user' THEN o.user_rate * o.ticket_count WHEN u.role = 'leader' THEN o.leader_rate * o.ticket_count ELSE o.admin_rate * o.ticket_count END AS total, CASE WHEN o.play_date >= '$day' AND p.locked_from > '$time' THEN 'y' ELSE 'n' END AS dlt FROM orders o LEFT JOIN users u ON o.user_id = u.id LEFT JOIN plays p ON p.id = o.play_id WHERE o.play_date BETWEEN ? AND ? AND IF(? > 0, o.play_id = ?, 1) AND IF(? > 0, o.ticket_id = ?, 1) AND IF (? != '', o.ticket_number = ?, 1) AND IF(? != '', o.bill_number = ?, 1) AND o.user_id = ? AND IF(?=1, o.ticket_id IN(6,7,8), 1) AND IF(?=2, o.ticket_id IN(3,4,5), 1) AND IF(?=3, o.ticket_id IN(1,2), 1) GROUP BY orderid) AS tbl1 GROUP BY bill_number", [$request->json('from_date'), $request->json('to_date'), $request->json('play_id'), $request->json('play_id'), $request->json('ticket_id'), $request->json('ticket_id'), $request->json('ticket_number'), $request->json('ticket_number'), $request->json('bill_number'), $request->json('bill_number'), $request->json('selectedUser'), $request->json('option'), $request->json('option'), $request->json('option')]));
@@ -538,19 +517,12 @@ class APIController extends Controller
 
     function getSalesReportByBillAll(Request $request)
     {
-        $ratecol = 'user_rate';
-        /*if ($request->json('role') == 'admin'):
-            $ratecol = 'admin_rate';
-        endif;
-        if ($request->json('role') == 'leader'):
-            $ratecol = 'leader_rate';
-        endif;*/
         $data = Order::leftJoin('users as u', 'u.id', 'orders.user_id')->where('orders.bill_number', $request->json('bill_number'))->selectRaw("orders.id, orders.play_date, orders.bill_number, orders.ticket_number, orders.play_code, orders.ticket_count, CASE WHEN u.role = 'user' THEN orders.user_rate * orders.ticket_count WHEN u.role = 'leader' THEN orders.leader_rate * orders.ticket_count ELSE orders.admin_rate * orders.ticket_count END AS price")->when($request->json('option') == 1, function ($q) {
-            return $q->whereIn('ticket_id', [6, 7, 8]);
+            return $q->whereIn('orders.ticket_id', [6, 7, 8]);
         })->when($request->json('option') == 2, function ($q) {
-            return $q->whereIn('ticket_id', [3, 4, 5]);
+            return $q->whereIn('orders.ticket_id', [3, 4, 5]);
         })->when($request->json('option') == 3, function ($q) {
-            return $q->whereIn('ticket_id', [1, 2]);
+            return $q->whereIn('orders.ticket_id', [1, 2]);
         })->get();
         return response()->json([
             'status' => true,
