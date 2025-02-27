@@ -168,7 +168,8 @@ class APIController extends Controller
 
     function getTicket(Request $request)
     {
-        $ticket = Ticket::where('name', $request->json('ticket_name'))->first();
+        $role = User::find($request->json('agent'))->role;
+        $ticket = Ticket::where('name', $request->json('ticket_name'))->selectRaw("tickets.*, CASE WHEN '$role' = 'leader' THEN tickets.leader_rate WHEN '$role' = 'admin' THEN tickets.admin_rate ELSE user_rate END AS actual_rate")->first();
         return response()->json([
             'status' => true,
             'ticket' => $ticket,
