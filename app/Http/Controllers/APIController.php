@@ -625,7 +625,7 @@ class APIController extends Controller
         ], 200);
     }
 
-    function getWinningDetailsReportTest(Request $request)
+    function getWinningDetailsReport(Request $request)
     {
         $ratecol = 'o.user_rate';
         if ($request->json('role') == 'admin'):
@@ -640,13 +640,11 @@ class APIController extends Controller
             'record' => $data,
             'total' => $data->sum('amount') + $data->sum('super'),
             'count' => $data->sum('ticket_count'),
-            'super' => $data->sum('super'),
-            'amount' => $data->sum('amount'),
             'message' => 'success',
         ], 200);
     }
 
-    function getWinningDetailsReport(Request $request)
+    function getWinningDetailsReportOld(Request $request)
     {
         $ratecol = 'o.user_rate';
         if ($request->json('role') == 'admin'):
