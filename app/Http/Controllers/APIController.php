@@ -640,6 +640,8 @@ class APIController extends Controller
             'record' => $data,
             'total' => $data->sum('amount') + $data->sum('super'),
             'count' => $data->sum('ticket_count'),
+            'super' => $data->sum('super'),
+            'amount' => $data->sum('amount'),
             'message' => 'success',
         ], 200);
     }
