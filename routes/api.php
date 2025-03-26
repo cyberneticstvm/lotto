@@ -34,6 +34,7 @@ Route::prefix('user')->controller(APIController::class)->group(function () {
     Route::post('/scheme/all', 'getAllSchemes')->name('scheme.all');
     Route::post('/scheme/edit', 'getSchemeForEdit')->name('scheme.edit');
     Route::post('/scheme/update', 'updateScheme')->name('scheme.update');
+    Route::post('/rates', 'getRates')->name('user.rates');
 
     Route::post('/bills/for/delete', 'getBillsForDelete')->name('bills.for.delete');
     Route::post('/delete/bill', 'deleteBill')->name('delete.bill');

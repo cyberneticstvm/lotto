@@ -392,6 +392,16 @@ class APIController extends Controller
         ], 200);
     }
 
+    function getRates()
+    {
+        $rates = Ticket::orderBy('name')->get();
+        return response()->json([
+            'status' => true,
+            'rates' => $rates,
+            'message' => 'success',
+        ], 200);
+    }
+
     function getNumberWiseReport(Request $request)
     {
         $result = Order::whereDate('play_date', $request->json('play_date'))->when($request->json('play_id'), function ($q) use ($request) {
