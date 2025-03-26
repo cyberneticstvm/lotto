@@ -394,7 +394,7 @@ class APIController extends Controller
 
     function getRates()
     {
-        $rates = Ticket::orderBy('name')->get();
+        $rates = Ticket::all();
         return response()->json([
             'status' => true,
             'rates' => $rates,
